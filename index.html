@@ -412,81 +412,70 @@
                         </div>
                     </section>
 
-                    {/* Featured Work Section */}
-                    <section id="work" className="py-20 px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-7xl mx-auto">
-                            <div className="mb-16">
-                                <h2 className="text-4xl font-bold mb-2">Featured Work</h2>
-                                <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
-                            </div>
+                   {/* Web Development */}
+<div className="mb-20">
+    <h3 className="text-2xl font-bold mb-8 text-gray-900">
+        AI-Assisted Web Development
+    </h3>
 
-                            {/* Web Development */}
-                            <div className="mb-20">
-                                <h3 className="text-2xl font-bold mb-8 text-gray-900">
-                                    AI-Assisted Web Development
-                                </h3>
-                     
-                                {[
-                                     {[
-    {
-        name: 'COOLCUTZ Barbershop',
-        description: 'Premium barbershop website with modern design, booking system, and brand storytelling.',
-        role: 'Full-Stack Development',
-        link: '...',
-        color: 'from-slate-200 to-slate-300',
-        image: './coolcutz.png'
-    },
-    {
-        name: 'Manstop Barbershop',
-        description: 'Cinematic design barbershop site featuring portfolio, services, and professional aesthetic.',
-        role: 'Web Development & Design',
-        link: '...',
-        color: 'from-slate-300 to-slate-400',
-        image: './manstop.png'
-    },
-    {
-        name: 'Pink House Cannabis',
-        description: 'E-commerce boutique website with modern UI, product showcase, and brand identity.',
-        role: 'Web Development',
-        link: '...',
-        color: 'from-pink-200 to-purple-200',
-        image: './pink-house.png'
-    },
-].map((project, idx) => (
-    <a
-        key={idx}
-        href={project.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300"
-    >
-        <div className="h-48 relative overflow-hidden">
-            <img
-                src={project.image}
-                alt={`${project.name} website`}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all"></div>
-        </div>
-
-        <div className="p-6">
-            <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                {project.name}
-            </h4>
-
-            <p className="text-gray-600 text-sm mb-4">
-                {project.description}
-            </p>
-
-            <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-blue-600">
-                    {project.role}
-                </span>
-                <ExternalLink />
+    {[
+        {
+            name: 'COOLCUTZ Barbershop',
+            description: 'Premium barbershop website with modern design, booking system, and brand storytelling.',
+            role: 'Full-Stack Development',
+            link: 'https://coolcutz-barbershop.netlify.app/',
+            image: './coolcutz.png'
+        },
+        {
+            name: 'Manstop Barbershop',
+            description: 'Cinematic design barbershop site featuring portfolio, services, and professional aesthetic.',
+            role: 'Web Development & Design',
+            link: 'https://manstop-cinematic-cut.lovable.app/',
+            image: './manstop.png'
+        },
+        {
+            name: 'Pink House Cannabis',
+            description: 'E-commerce boutique website with modern UI, product showcase, and brand identity.',
+            role: 'Web Development',
+            link: 'https://peppy-gingersnap-ab446b.netlify.app/',
+            image: './pink-house.png'
+        }
+    ].map((project, idx) => (
+        <a
+            key={idx}
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300"
+        >
+            <div className="h-48 relative overflow-hidden">
+                <img
+                    src={project.image}
+                    alt={`${project.name} website`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all"></div>
             </div>
-        </div>
-    </a>
-))}
+
+            <div className="p-6">
+                <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                    {project.name}
+                </h4>
+
+                <p className="text-gray-600 text-sm mb-4">
+                    {project.description}
+                </p>
+
+                <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-blue-600">
+                        {project.role}
+                    </span>
+                    <ExternalLink />
+                </div>
+            </div>
+        </a>
+    ))}
+</div>
                                 </div>
                             </div>
 
