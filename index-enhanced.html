@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nawal Vohra - AI & Digital Solutions. Building digital experiences with AI, creativity, and technology.">
+    <meta name="keywords" content="AI, Web Development, Digital Design, AI-Assisted Development, Portfolio">
+    <meta name="author" content="Nawal Vohra">
+    
+    <meta property="og:title" content="Nawal Vohra — AI & Digital Solutions Portfolio">
+    <meta property="og:description" content="An emerging AI professional building digital experiences through web development, design, and creative technology.">
+    <meta property="og:type" content="website">
+    
+    <title>Nawal Vohra — AI & Digital Solutions Portfolio</title>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #ffffff;
+            color: #111827;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e40af;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #2563eb, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Icon Components
+        const Menu = () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>;
+        const X = () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>;
+        const ExternalLink = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-4-4l8-8m0 0v4m0-4H8" /></svg>;
+        const ArrowRight = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>;
+        const Linkedin = () => <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>;
+        const Mail = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>;
+
+        // SVG Icon Components for Capabilities
+        const AIIcon = () => (
+            <svg className="w-12 h-12 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 2v20M2 12h20"/>
+                <circle cx="12" cy="6" r="1.5" fill="currentColor"/>
+                <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
+                <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+                <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+            </svg>
+        );
+
+        const CreativeIcon = () => (
+            <svg className="w-12 h-12 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                <circle cx="18" cy="7" r="1" fill="currentColor"/>
+                <circle cx="6" cy="7" r="1" fill="currentColor"/>
+                <circle cx="18" cy="17" r="1" fill="currentColor"/>
+                <circle cx="6" cy="17" r="1" fill="currentColor"/>
+                <path d="M12 12L18 7M12 12L6 7M12 12L18 17M12 12L6 17"/>
+                <circle cx="12" cy="12" r="9" fill="none"/>
+            </svg>
+        );
+
+        const AutomationIcon = () => (
+            <svg className="w-12 h-12 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="8" cy="12" r="1.5" fill="currentColor"/>
+                <circle cx="16" cy="12" r="1.5" fill="currentColor"/>
+                <path d="M8 12h8M6 12L4 10M6 12L4 14M18 12l2-2M18 12l2 2"/>
+                <rect x="2" y="2" width="20" height="20" rx="2" fill="none"/>
+            </svg>
+        );
+
+        const BusinessIcon = () => (
+            <svg className="w-12 h-12 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M4 6h16v2H4z"/>
+                <path d="M6 8v10a2 2 0 002 2h8a2 2 0 002-2V8"/>
+                <path d="M10 8v10M14 8v10"/>
+                <path d="M12 8v2"/>
+            </svg>
+        );
+
+        const NawalPortfolio = () => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+            const [activeSection, setActiveSection] = useState('home');
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const scrollToSection = (id) => {
+                setActiveSection(id);
+                setIsMenuOpen(false);
+                const element = document.getElementById(id);
+                element?.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            return (
+                <div className="bg-white text-gray-900 overflow-hidden">
+                    {/* Navigation */}
+                    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+                        scrolled
+                            ? 'bg-white shadow-md backdrop-blur-sm'
+                            : 'bg-white/80 backdrop-blur-md'
+                    }`}>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                                        <span className="text-white font-bold text-lg">N</span>
+                                    </div>
+                                    <span className="font-bold text-lg tracking-tight">Nawal Vohra</span>
+                                </div>
+
+                                <div className="hidden md:flex items-center gap-8">
+                                    {[
+                                        { label: 'Home', id: 'home' },
+                                        { label: 'About', id: 'about' },
+                                        { label: 'Capabilities', id: 'capabilities' },
+                                        { label: 'Work', id: 'work' },
+                                        { label: 'Experience', id: 'experience' },
+                                        { label: 'Contact', id: 'contact' },
+                                    ].map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => scrollToSection(item.id)}
+                                            className={`text-sm font-medium transition-colors ${
+                                                activeSection === item.id
+                                                    ? 'text-blue-600 border-b-2 border-blue-600 pb-1'
+                                                    : 'text-gray-600 hover:text-gray-900'
+                                            }`}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <button
+                                    className="md:hidden p-2"
+                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                >
+                                    {isMenuOpen ? <X /> : <Menu />}
+                                </button>
+                            </div>
+
+                            {isMenuOpen && (
+                                <div className="md:hidden pb-4 pt-2 border-t">
+                                    {[
+                                        { label: 'Home', id: 'home' },
+                                        { label: 'About', id: 'about' },
+                                        { label: 'Capabilities', id: 'capabilities' },
+                                        { label: 'Work', id: 'work' },
+                                        { label: 'Experience', id: 'experience' },
+                                        { label: 'Contact', id: 'contact' },
+                                    ].map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => scrollToSection(item.id)}
+                                            className="block w-full text-left px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section id="home" className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-slate-50">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid md:grid-cols-2 gap-12 items-center">
+                                <div className="space-y-8">
+                                    <div>
+                                        <div className="inline-block px-4 py-2 bg-blue-50 rounded-full mb-6">
+                                            <span className="text-sm font-semibold text-blue-600">
+                                                AI & Digital Solutions
+                                            </span>
+                                        </div>
+                                        <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-4">
+                                            Building Digital
+                                            <span className="gradient-text"> Experiences</span>
+                                        </h1>
+                                        <p className="text-xl text-gray-600 leading-relaxed">
+                                            I combine AI, creativity, and technology to build digital products that solve real problems. From concept to code, design to automation.
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <button
+                                            onClick={() => scrollToSection('work')}
+                                            className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                                        >
+                                            Explore My Work
+                                            <ArrowRight />
+                                        </button>
+                                        <button
+                                            onClick={() => scrollToSection('contact')}
+                                            className="inline-flex items-center justify-center gap-2 px-8 py-3 border-2 border-gray-300 text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                                        >
+                                            View Experience
+                                        </button>
+                                    </div>
+
+                                    <div className="flex gap-8 pt-4">
+                                        <div className="space-y-1">
+                                            <div className="text-3xl font-bold text-blue-600">5+</div>
+                                            <div className="text-sm text-gray-600">Projects Completed</div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="text-3xl font-bold text-blue-600">∞</div>
+                                            <div className="text-sm text-gray-600">Always Learning</div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="text-3xl font-bold text-blue-600">AI</div>
+                                            <div className="text-sm text-gray-600">Passionate About</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Hero Visual - AI Concept Image */}
+                                <div className="relative hidden md:block">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl opacity-30 blur-2xl"></div>
+                                    <div className="relative rounded-2xl overflow-hidden border border-blue-100 shadow-xl">
+                                        <img 
+                                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%239f7aea;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%235a67d8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad)'/%3E%3Ccircle cx='200' cy='150' r='60' fill='none' stroke='%23fff' stroke-width='2' opacity='0.3'/%3E%3Ccircle cx='200' cy='150' r='40' fill='none' stroke='%23fff' stroke-width='1' opacity='0.2'/%3E%3Ctext x='200' y='160' font-size='40' fill='%23fff' text-anchor='middle' font-weight='bold' opacity='0.7'%3EAI%3C/text%3E%3C/svg%3E" 
+                                            alt="AI Innovation"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid md:grid-cols-3 gap-12 items-start">
+                                <div>
+                                    <h2 className="text-4xl font-bold mb-2">About</h2>
+                                    <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                                </div>
+                                <div className="md:col-span-2 space-y-6">
+                                    {/* Visual Image on left */}
+                                    <div className="md:float-left md:mr-6 mb-6 md:mb-0">
+                                        <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-blue-100 shadow-lg">
+                                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                                                <span className="text-white text-6xl font-bold">N</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <p className="text-lg text-gray-700 leading-relaxed">
+                                        I'm an Artificial Intelligence undergraduate with a passion for exploring how technology can create meaningful solutions. Rather than staying theoretical, I actively build, design, and experiment with emerging tools.
+                                    </p>
+                                    <p className="text-lg text-gray-700 leading-relaxed">
+                                        My background spans AI-assisted development, digital product creation, content strategy, and business development. I've worked across multiple domains—from building websites to creating digital products on Etsy, writing comprehensive research guides, and developing business tools.
+                                    </p>
+                                    <p className="text-lg text-gray-700 leading-relaxed">
+                                        What drives me is the intersection of curiosity and execution. I don't just study AI and technology—I build with them, test them, and find ways to integrate them into practical workflows.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Capabilities Section */}
+                    <section id="capabilities" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="mb-16">
+                                <h2 className="text-4xl font-bold mb-2">Capabilities</h2>
+                                <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {[
+                                    {
+                                        title: 'AI & Technology',
+                                        icon: <AIIcon />,
+                                        items: [
+                                            'Generative AI',
+                                            'AI-Assisted Development',
+                                            'AI Research',
+                                            'AI-Powered Content',
+                                        ],
+                                    },
+                                    {
+                                        title: 'Digital & Creative',
+                                        icon: <CreativeIcon />,
+                                        items: [
+                                            'Digital Product Design',
+                                            'Web Development',
+                                            'Graphic Design',
+                                            'Creative Content',
+                                        ],
+                                    },
+                                    {
+                                        title: 'Automation & APIs',
+                                        icon: <AutomationIcon />,
+                                        items: [
+                                            'Workflow Automation (Learning)',
+                                            'n8n (Exploring)',
+                                            'API Integration',
+                                            'Process Optimization',
+                                        ],
+                                    },
+                                    {
+                                        title: 'Business & Communication',
+                                        icon: <BusinessIcon />,
+                                        items: [
+                                            'Lead Generation',
+                                            'Sales Communication',
+                                            'Business Development',
+                                            'Relationship Management',
+                                        ],
+                                    },
+                                ].map((category, idx) => (
+                                    <div key={idx} className="bg-white rounded-xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
+                                        <div className="mb-4 flex justify-center">
+                                            {category.icon}
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-6 text-gray-900 text-center">
+                                            {category.title}
+                                        </h3>
+                                        <ul className="space-y-3">
+                                            {category.items.map((item, i) => (
+                                                <li key={i} className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-700">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-12 p-8 bg-blue-50 border-2 border-blue-200 rounded-xl">
+                                <p className="text-sm text-blue-900">
+                                    <span className="font-semibold">Currently Exploring:</span> Workflow automation using n8n and AI agents. Learning how to connect APIs, automation workflows, and digital tools to streamline business processes.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Featured Work Section */}
+                    <section id="work" className="py-20 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="mb-16">
+                                <h2 className="text-4xl font-bold mb-2">Featured Work</h2>
+                                <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                            </div>
+
+                            {/* Web Development */}
+                            <div className="mb-20">
+                                <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                    AI-Assisted Web Development
+                                </h3>
+                                <div className="grid md:grid-cols-3 gap-6">
+                                    {[
+                                        {
+                                            name: 'COOLCUTZ Barbershop',
+                                            description: 'Premium barbershop website with modern design, booking system, and brand storytelling.',
+                                            role: 'Full-Stack Development',
+                                            link: 'https://coolcutz-barbershop.netlify.app/',
+                                            color: 'from-slate-200 to-slate-300'
+                                        },
+                                        {
+                                            name: 'Manstop Barbershop',
+                                            description: 'Cinematic design barbershop site featuring portfolio, services, and professional aesthetic.',
+                                            role: 'Web Development & Design',
+                                            link: 'https://manstop-cinematic-cut.lovable.app/',
+                                            color: 'from-slate-300 to-slate-400'
+                                        },
+                                        {
+                                            name: 'Pink House Cannabis',
+                                            description: 'E-commerce boutique website with modern UI, product showcase, and brand identity.',
+                                            role: 'Web Development',
+                                            link: 'https://peppy-gingersnap-ab446b.netlify.app/',
+                                            color: 'from-pink-200 to-purple-200'
+                                        },
+                                    ].map((project, idx) => (
+                                        <a
+                                            key={idx}
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300"
+                                        >
+                                            <div className={`h-48 bg-gradient-to-br ${project.color} relative overflow-hidden`}>
+                                                <div className="absolute inset-0 bg-opacity-0 group-hover:bg-black/5 transition-all"></div>
+                                            </div>
+                                            <div className="p-6">
+                                                <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                                                    {project.name}
+                                                </h4>
+                                                <p className="text-gray-600 text-sm mb-4">{project.description}</p>
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xs font-semibold text-blue-600">
+                                                        {project.role}
+                                                    </span>
+                                                    <ExternalLink />
+                                                </div>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Digital Products */}
+                            <div className="mb-20">
+                                <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                    Digital Product Design
+                                </h3>
+                                <p className="text-gray-600 mb-8">
+                                    Creative graphic designs for digital products. Each design combines visual appeal with meaningful messaging—from humorous takes on technology and modern life to celebration designs.
+                                </p>
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="bg-white rounded-xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">
+                                            Humorous Tech & Culture Designs
+                                        </h4>
+                                        <p className="text-gray-600 mb-6">
+                                            Witty graphic designs featuring aliens, pop culture references, and commentary on modern technology.
+                                        </p>
+                                        <div className="grid grid-cols-2 gap-3 mb-6">
+                                            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg h-32 flex items-center justify-center">
+                                                <span className="text-xs text-center font-semibold text-blue-900">Alien Shirt</span>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg h-32 flex items-center justify-center">
+                                                <span className="text-xs text-center font-semibold text-purple-900">MJ Tribute</span>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg h-32 flex items-center justify-center">
+                                                <span className="text-xs text-center font-semibold text-pink-900">Boss Design</span>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg h-32 flex items-center justify-center">
+                                                <span className="text-xs text-center font-semibold text-orange-900">Holidays</span>
+                                            </div>
+                                        </div>
+                                        <ul className="space-y-3">
+                                            {[
+                                                '"What We Expected vs What We Got" Alien Design',
+                                                '"Bad Michael Jackson" Tribute',
+                                                'Holiday & Celebration Themed Graphics',
+                                                '"The Boss Bad to the Bone" Design',
+                                            ].map((item, i) => (
+                                                <li key={i} className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-700 text-sm">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-white rounded-xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">
+                                            Digital Product Distribution
+                                        </h4>
+                                        <p className="text-gray-600 mb-6">
+                                            All designs created for online marketplace distribution. Ready for print-on-demand services.
+                                        </p>
+                                        <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg p-6 mb-6 border-2 border-dashed border-orange-200">
+                                            <div className="flex items-center justify-center h-32">
+                                                <span className="text-center">
+                                                    <div className="text-4xl mb-2">📋</div>
+                                                    <p className="text-sm font-semibold text-orange-900">Planning Sheet</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ul className="space-y-3">
+                                            {[
+                                                'Professional mockup presentations',
+                                                'Ready for print-on-demand services',
+                                                'Designed for target demographics',
+                                                'E-commerce optimization',
+                                            ].map((item, i) => (
+                                                <li key={i} className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-700 text-sm">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Content & Research */}
+                            <div>
+                                <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                    Content & Research Writing
+                                </h3>
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="bg-white rounded-xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
+                                        <div className="mb-6">
+                                            <div className="inline-block px-3 py-1 bg-green-50 rounded-full mb-4">
+                                                <span className="text-xs font-semibold text-green-700">
+                                                    Comprehensive Guide
+                                                </span>
+                                            </div>
+                                            <h4 className="text-xl font-bold text-gray-900">
+                                                Aloe Vera: Nature's Ultimate Healer
+                                            </h4>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-lg p-4 mb-6 h-40 flex items-center justify-center">
+                                            <div className="text-center">
+                                                <div className="text-5xl mb-2">🌿</div>
+                                                <p className="font-semibold text-green-900">Aloe Vera eBook</p>
+                                            </div>
+                                        </div>
+                                        <p className="text-gray-600 mb-6">
+                                            A detailed, evidence-based guide covering skin applications, oral consumption, and hair treatments. Published through Treasure Digi Gifts.
+                                        </p>
+                                        <ul className="space-y-2 text-sm text-gray-700">
+                                            <li>✓ 20+ pages of research & content</li>
+                                            <li>✓ Science-backed information</li>
+                                            <li>✓ Professional publication quality</li>
+                                            <li>✓ Health & wellness focus</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-white rounded-xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
+                                        <div className="mb-6">
+                                            <div className="inline-block px-3 py-1 bg-blue-50 rounded-full mb-4">
+                                                <span className="text-xs font-semibold text-blue-700">
+                                                    Educational Content
+                                                </span>
+                                            </div>
+                                            <h4 className="text-xl font-bold text-gray-900">
+                                                Academic & Educational Materials
+                                            </h4>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg p-4 mb-6 h-40 flex items-center justify-center">
+                                            <div className="text-center">
+                                                <div className="text-5xl mb-2">📚</div>
+                                                <p className="font-semibold text-blue-900">Educational Guides</p>
+                                            </div>
+                                        </div>
+                                        <p className="text-gray-600 mb-6">
+                                            Clear, well-structured educational content on mathematics and technology topics.
+                                        </p>
+                                        <ul className="space-y-2 text-sm text-gray-700">
+                                            <li>✓ Introduction to Sets</li>
+                                            <li>✓ Introduction to Quadratic Equations</li>
+                                            <li>✓ Clear explanations & examples</li>
+                                            <li>✓ Professional formatting</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* How I Work Section */}
+                    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="mb-16">
+                                <h2 className="text-4xl font-bold mb-2">How I Work</h2>
+                                <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                            </div>
+
+                            <div className="grid md:grid-cols-4 gap-6">
+                                {[
+                                    {
+                                        step: '01',
+                                        title: 'Explore',
+                                        description:
+                                            'Understand the problem deeply. Research possibilities, ask questions, and identify opportunities before diving into solutions.',
+                                    },
+                                    {
+                                        step: '02',
+                                        title: 'Create',
+                                        description:
+                                            'Use AI and digital tools to turn ideas into tangible outputs. Experiment, iterate, and build meaningful solutions.',
+                                    },
+                                    {
+                                        step: '03',
+                                        title: 'Build',
+                                        description:
+                                            'Develop websites, digital products, content, and creative assets. Transform concepts into polished, professional work.',
+                                    },
+                                    {
+                                        step: '04',
+                                        title: 'Automate',
+                                        description:
+                                            'Explore ways to streamline workflows using automation and AI. Optimize processes for efficiency and scalability.',
+                                    },
+                                ].map((phase, idx) => (
+                                    <div key={idx} className="group">
+                                        <div className="text-5xl font-bold text-blue-100 mb-4 group-hover:text-blue-200 transition-colors">
+                                            {phase.step}
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900 mb-3">
+                                            {phase.title}
+                                        </h3>
+                                        <p className="text-gray-600 leading-relaxed">
+                                            {phase.description}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-12 p-8 bg-white rounded-xl border-2 border-blue-200">
+                                <p className="text-center text-gray-700 text-lg leading-relaxed">
+                                    <span className="font-semibold">The Philosophy:</span> I don't just study
+                                    technology—I experiment with it, build with it, and find practical ways to
+                                    integrate it into real work. Curiosity + Execution = Meaningful Results.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Experience Section */}
+                    <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="mb-16">
+                                <h2 className="text-4xl font-bold mb-2">Experience & Education</h2>
+                                <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-12">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                        Professional Experience
+                                    </h3>
+                                    <div className="space-y-8">
+                                        <div className="border-l-4 border-blue-600 pl-6 pb-8">
+                                            <div className="flex items-start justify-between mb-2">
+                                                <h4 className="text-lg font-bold text-gray-900">
+                                                    Sales & Business Development Professional
+                                                </h4>
+                                                <span className="text-sm text-gray-500 font-semibold">
+                                                    2022–2024
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-600 mb-4">
+                                                Developed expertise in client communication, lead generation, and business opportunity identification.
+                                            </p>
+                                            <ul className="space-y-2 text-sm text-gray-700">
+                                                <li>✓ Client relationship management & communication</li>
+                                                <li>✓ Lead generation and prospect follow-up</li>
+                                                <li>✓ Sales presentations & service positioning</li>
+                                                <li>✓ Negotiation & deal closure</li>
+                                                <li>✓ Team coordination & internal collaboration</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className="border-l-4 border-purple-600 pl-6">
+                                            <div className="flex items-start justify-between mb-2">
+                                                <h4 className="text-lg font-bold text-gray-900">
+                                                    Freelance Content Writer
+                                                </h4>
+                                                <span className="text-sm text-gray-500 font-semibold">
+                                                    Getweys
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-600 mb-4">
+                                                Created SEO-focused content across multiple domains.
+                                            </p>
+                                            <ul className="space-y-2 text-sm text-gray-700">
+                                                <li>✓ Blog posts & website content</li>
+                                                <li>✓ AI & technology topics</li>
+                                                <li>✓ Business & digital solutions</li>
+                                                <li>✓ SEO optimization & readability</li>
+                                                <li>✓ Editing & proofreading</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                        Education & Learning
+                                    </h3>
+                                    <div className="space-y-8">
+                                        <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                                            <h4 className="text-lg font-bold text-gray-900 mb-2">
+                                                Bachelor's Degree
+                                            </h4>
+                                            <p className="text-blue-900 font-semibold mb-2">
+                                                Artificial Intelligence
+                                            </p>
+                                            <p className="text-sm text-gray-600">
+                                                Currently Pursuing – Building comprehensive knowledge in AI theory, applications, and emerging technologies.
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
+                                            <h4 className="text-lg font-bold text-gray-900 mb-4">
+                                                Continuous Learning
+                                            </h4>
+                                            <div className="space-y-3">
+                                                <div>
+                                                    <p className="text-sm font-semibold text-purple-900 mb-1">
+                                                        n8n Workflow Automation
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        Currently Exploring – Learning automation fundamentals and API integration.
+                                                    </p>
+                                                </div>
+                                                <div className="pt-2 border-t border-purple-200">
+                                                    <p className="text-sm font-semibold text-purple-900 mb-1">
+                                                        Digital Marketing
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        In Progress – Expanding knowledge in digital strategy and online marketing.
+                                                    </p>
+                                                </div>
+                                                <div className="pt-2 border-t border-purple-200">
+                                                    <p className="text-sm font-semibold text-purple-900 mb-1">
+                                                        Turkish Language
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        Certificate of Participation – Istanbul Nişantaşı University
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                                Let's build something together
+                            </h2>
+                            <p className="text-xl text-gray-300 mb-12 leading-relaxed">
+                                Have an idea worth exploring? A project that needs execution? I'm always interested in collaborating on work that combines creativity, technology, and meaningful impact.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <a
+                                    href="mailto:hello@nawalvohra.com"
+                                    className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                                >
+                                    <Mail className="w-5 h-5" />
+                                    Email Me
+                                </a>
+                                <a
+                                    href="https://linkedin.com/in/nawal-vohra"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-slate-900 transition-colors"
+                                >
+                                    <Linkedin className="w-5 h-5" />
+                                    LinkedIn
+                                </a>
+                            </div>
+
+                            <div className="mt-16 pt-8 border-t border-gray-700">
+                                <p className="text-gray-400 text-sm">
+                                    © 2026 Nawal Vohra. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<NawalPortfolio />, document.getElementById('root'));
+    </script>
+</body>
+</html>
